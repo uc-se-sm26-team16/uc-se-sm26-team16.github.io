@@ -1,97 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EECE/CS 3093C Scrum Project — uc-se-sm26-team16 Chatr</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chattr — Team 16 | EECE/CS 3093C Software Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:      #0D1B2A;
+      --navy-mid:  #152336;
+      --navy-card: #1C2E42;
+      --red:       #C01933;
+      --red-hover: #A01528;
+      --bg:        #F0F4F8;
+      --surface:   #FFFFFF;
+      --text:      #1A2332;
+      --muted:     #64748B;
+      --border:    #E2E8F0;
+      --online:    #22C55E;
+      --radius:    12px;
+      --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--red); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .06em; padding: 3px 10px; border-radius: 999px; }
+    .tag-red   { background: var(--red);  color: #fff; }
+    .tag-navy  { background: var(--navy); color: rgba(255,255,255,.7); }
+    .tag-green { background: #DCFCE7;     color: #166534; }
 
+    /* topbar */
+    .topbar { background: var(--navy); padding: 10px 0; font-size: 12px; color: rgba(255,255,255,.55); text-align: center; letter-spacing: .04em; }
+    .topbar a { color: rgba(255,255,255,.75); }
+
+    /* nav */
+    nav { background: var(--navy-mid); position: sticky; top: 0; z-index: 50; border-bottom: 2px solid var(--red); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -.02em; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-brand:hover { text-decoration: none; }
+    .bubble { width: 28px; height: 28px; background: var(--red); border-radius: 50% 50% 50% 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.65); font-size: 13px; font-weight: 500; transition: color .15s; }
+    .nav-links a:hover { color: #fff; text-decoration: none; }
+
+    /* hero */
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-card) 100%); color: #fff; padding: 80px 0 72px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(192,25,51,.18) 0%, transparent 70%); pointer-events: none; }
+    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--red); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 16px; }
+    .hero h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 800; letter-spacing: -.035em; line-height: 1.05; margin-bottom: 20px; }
+    .hero h1 .accent { color: var(--red); }
+    .hero-sub { font-size: 17px; color: rgba(255,255,255,.65); max-width: 520px; margin-bottom: 36px; line-height: 1.65; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background .15s, transform .1s; text-decoration: none; }
+    .btn:hover { transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { background: var(--red-hover); }
+    .btn-outline { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+    .btn-outline:hover { background: rgba(255,255,255,.14); }
+    .hero-meta { display: flex; gap: 32px; margin-top: 52px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1); flex-wrap: wrap; }
+    .hero-meta-item { font-size: 12px; color: rgba(255,255,255,.45); }
+    .hero-meta-item strong { display: block; color: rgba(255,255,255,.85); font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+
+    /* sections */
+    section { padding: 72px 0; }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+    .section-title { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 16px; }
+    .section-desc { color: var(--muted); max-width: 560px; margin-bottom: 40px; font-size: 15px; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* demo */
+    #demo { background: var(--surface); }
+    .sprint-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: rgba(255,255,255,.8); font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
+    .sprint-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--online); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .video-outer { background: var(--navy); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 24px 60px rgba(13,27,42,.25); }
+    .video-topbar { background: var(--navy-card); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+    .video-topbar .wdot { width: 11px; height: 11px; border-radius: 50%; }
+    .wr{background:#FF5F57} .wy{background:#FFBD2E} .wg{background:#28CA41}
+    .video-topbar span { margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,.4); }
+    .video-placeholder { position: relative; aspect-ratio: 16/9; background: linear-gradient(160deg, #0a1520 0%, #111e2d 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+    .play-ring { width: 72px; height: 72px; border-radius: 50%; background: rgba(192,25,51,.15); border: 2px solid rgba(192,25,51,.4); display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
+    .play-ring svg { margin-left: 4px; }
+    .video-caption { text-align: center; }
+    .video-caption p { color: rgba(255,255,255,.5); font-size: 13px; }
+    .video-caption strong { display: block; color: rgba(255,255,255,.85); font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+
+    /* features */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 40px; }
+    .feature-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: flex-start; gap: 12px; }
+    .feature-icon { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .feature-text h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .feature-text p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* about */
+    #about { background: var(--bg); }
+    .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+    @media(max-width:768px){ .about-grid{grid-template-columns:1fr} }
+    .about-body p { color: var(--muted); font-size: 15px; line-height: 1.75; margin-bottom: 16px; }
+    .stack-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .stack-pill { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--navy); color: rgba(255,255,255,.75); }
+    .sprint-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .sprint-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .sprint-table th { background: var(--navy); color: rgba(255,255,255,.65); font-weight: 600; letter-spacing: .05em; font-size: 11px; text-transform: uppercase; padding: 10px 16px; text-align: left; }
+    .sprint-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .sprint-table tr:last-child td { border-bottom: none; }
+    .sprint-table tr.current td { background: #FEF2F2; }
+    .sprint-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--navy); }
+
+    /* team */
+    #team { background: var(--surface); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+    .member-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 20px; text-align: center; transition: box-shadow .2s, transform .2s; }
+    .member-card:hover { box-shadow: 0 8px 24px rgba(13,27,42,.1); transform: translateY(-2px); }
+    .member-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--navy); color: rgba(255,255,255,.85); font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; position: relative; }
+    .member-avatar .status { position: absolute; bottom: 1px; right: 1px; width: 12px; height: 12px; border-radius: 50%; background: var(--online); border: 2px solid var(--bg); }
+    .member-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .member-card .role { font-size: 11px; color: var(--red); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .member-card a { font-size: 11px; color: var(--muted); word-break: break-all; }
+
+    /* links */
+    #links { background: var(--bg); }
+    .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .link-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; display: flex; align-items: flex-start; gap: 16px; transition: box-shadow .2s; text-decoration: none; color: inherit; }
+    .link-card:hover { box-shadow: 0 6px 20px rgba(13,27,42,.1); text-decoration: none; }
+    .link-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--navy); color: rgba(255,255,255,.8); font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .link-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .link-text p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* footer */
+    footer { background: var(--navy); color: rgba(255,255,255,.45); padding: 32px 0; font-size: 12px; text-align: center; line-height: 1.8; }
+    footer a { color: rgba(255,255,255,.6); }
+    footer a:hover { color: #fff; }
+
+    @media(max-width:640px){ .nav-links{display:none} .hero{padding:56px 0 48px} section{padding:52px 0} }
+    @media(prefers-reduced-motion:reduce){ .dot{animation:none} .btn,.member-card,.link-card{transition:none} }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Messenger</h1>
-    <p>
-      <strong>Course:</strong> EECE/CS-3093C — Software Engineering, Summer 2026<br>
-      <strong>Instructor:</strong> Dr. Phu Phung<br>
-      <strong>Team:</strong> 16
-    </p>
-    <section id="team">
-      <h2>Team Members</h2>
-      <ul>
-        <li>
-          <strong>Vedant Bharate</strong> &mdash;
-          <a href="mailto:bharatva@mail.uc.edu">bharatva@mail.uc.edu</a>
-          Product Owner
-        </li>
-        <li>
-          <strong>Sharanya Awasthi</strong> &mdash;
-          <a href="mailto:awasthsa@mail.uc.edu">awasthsa@mail.uc.edu</a>
-          Team Leader
-        </li>
-        <li>
-          <strong>Pradnyesh More</strong> &mdash;
-          <a href="mailto:morepu@mail.uc.edu">morepu@mail.uc.edu</a>
-          Developer
-        </li>
-        <li>
-          <strong>Arnav Bhalgat</strong> &mdash;
-          <a href="mailto:bhalgaaa@mail.uc.edu">bhalgaaa@mail.uc.edu</a>
-          Developer
-        </li>
-        <li>
-          <strong>Vedant Samarth</strong> &mdash;
-          <a href="samartvk@mail.uc.edu">samartvk@mail.uc.edu</a>
-          Developer
-        </li>
-        <!-- Add or remove a <li> if you have a more or less members. -->
-      </ul>
-    </section>
-  </header>
-  <main>
-    <section id="about">
-      <h2>About the Project</h2>
-      <p>
-        Messenger is a lightweight web-based messaging application designed to make communication between students, instructors, and team members 
-        faster and more organized. In many course or project environments, communication can become scattered across email, group chats, and announcements, 
-        which makes it harder for users to know where to send messages or how to find important updates. Messenger addresses this problem by providing one 
-        simple platform for public announcements, public chat, and private messaging. The target users for Messenger include students, course instructors, 
-        teaching assistants, and project team members. Students can use the application to ask questions, receive updates, and communicate privately with 
-        classmates or instructors. Instructors and teaching assistants can use Messenger to send class-wide announcements, answer questions, and check 
-        communication activity in a structured way. At a high level, Messenger will allow users to log in, view available chats, send and receive public messages,
-        send and receive private messages, and check whether another user is currently online. The application will focus on core communication features first, 
-        including user authentication, public chat, private chat, and message display. Future improvements may include message history search, notifications, 
-        file attachments, and improved user roles. The system will follow a simple client-server architecture. Users interact with the Messenger web interface 
-        through a browser. The frontend sends requests to the backend server, which handles authentication, message processing, user status, and database operations. 
-        The database stores user accounts, public messages, private messages, and user session or online status information.
 
-      </p>
-    </section>
-    <hr>
-    
-    <iframe id="kaltura_player" src='https://cdnapisec.kaltura.com/p/1492301/embedPlaykitJs/uiconf_id/53356032?iframeembed=true&amp;entry_id=1_gc8s4y6p&amp;config%5Bprovider%5D=%7B%22widgetId%22%3A%221_ls7b97f1%22%7D&amp;config%5Bplayback%5D=%7B%22startTime%22%3A0%7D'  
-      style="width: 854px;height: 480px;border: 0;" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" 
-      sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" 
-      title="Chattr-Sprint1-Demo">
-    </iframe>
-    
-    <hr>
-    <section id="links">
-      <h2>Project Links</h2>
-      <ul>
-        <li>GitHub Repository: <a href="https://github.com/uc-se-sm26-team16/scrum-project">https://github.com/uc-se-sm26-team16/scrum-project</a></li>
-        <li>GitHub Project Board: <a href="https://github.com/orgs/uc-se-sm26-team16/projects/1/views/2">https://github.com/orgs/uc-se-sm26-team16/projects/1/views/2</a></li>
-        <li>Deployed App (Azure App Services): <a href="https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net/">https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net/</a></li>
-      </ul>
-    </section>
-  </main>
-  <hr>
-  <footer>
-    <p>
-      <small>
-        &copy; 2026 Messenger — Team 16 &mdash;
-        EECE/CS-3093C Software Engineering, University of Cincinnati.
-        Last updated: 2026-06-18.
-      </small>
-    </p>
-  </footer>
+<div class="topbar">
+  EECE/CS 3093C Software Engineering &mdash; Summer 2026 &mdash; Instructor: Dr. Phu Phung &mdash; University of Cincinnati
+</div>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-brand" href="#">
+      <div class="bubble">&#128172;</div>
+      Chattr
+      <span class="tag tag-red" style="font-size:10px;">v0.1</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#links">Links</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Team 16 &mdash; Scrum Project</p>
+    <h1>Real-time messaging,<br><span class="accent">built for the classroom.</span></h1>
+    <p class="hero-sub">Chattr is a full-stack web chat application developed as part of EECE/CS 3093C. It supports public chat, private messaging, live user presence, and a full Secure Software Development Lifecycle &mdash; deployed on Azure App Services.</p>
+    <div class="hero-actions">
+      <a href="https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net" target="_blank" rel="noopener" class="btn btn-primary">&#9654;&nbsp; Open Live App</a>
+      <a href="https://github.com/uc-se-sm26-team16/scrum-project" target="_blank" rel="noopener" class="btn btn-outline">&#128196;&nbsp; View Repository</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Sprint 1 &mdash; v0.1</strong>Core UI &amp; Authentication</div>
+      <div class="hero-meta-item"><strong>Stack</strong>Node.js &middot; Express &middot; Socket.io</div>
+      <div class="hero-meta-item"><strong>Deployment</strong>Azure App Services &middot; GitHub Actions</div>
+      <div class="hero-meta-item"><strong>Security</strong>DOMPurify &middot; CSP &middot; Input Validation</div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="container">
+    <div class="sprint-badge"><span class="dot"></span>Sprint 1 &mdash; Messenger v0.1 &mdash; July 2026</div>
+    <p class="section-label">Video Demo</p>
+    <h2 class="section-title">See Chattr in action</h2>
+    <p class="section-desc">A 5&ndash;8 minute walkthrough of Sprint 1 &mdash; covering login validation, public and private chat, live user presence, the typing indicator, and a live XSS security test.</p>
+
+    <!--
+    ═══════════════════════════════════════════════════════════════════════
+    VIDEO EMBED — replace the .video-placeholder div below with your embed.
+
+    YouTube:
+    <iframe width="100%" style="aspect-ratio:16/9;display:block;"
+      src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+      title="Chattr Sprint 1 Demo" frameborder="0"
+      allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+      allowfullscreen></iframe>
+    ═══════════════════════════════════════════════════════════════════════
+    -->
+    <div class="video-outer">
+      <div class="video-topbar">
+        <div class="wdot wr"></div>
+        <div class="wdot wy"></div>
+        <div class="wdot wg"></div>
+        <span>Chattr &mdash; Sprint 1 Demo</span>
+      </div>
+      <div class="video-placeholder">
+        <div class="play-ring">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <polygon points="6,3 20,12 6,21" fill="#C01933"/>
+          </svg>
+        </div>
+        <div class="video-caption">
+          <strong>Sprint 1 Demo Video</strong>
+          <p>Replace this placeholder with your YouTube / Vimeo embed</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">&#128272;</div><div class="feature-text"><h4>Login (F1.1&ndash;F1.3)</h4><p>Username-only auth with whitelist validation, duplicate rejection, and access guard</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#128226;</div><div class="feature-text"><h4>Public Chat (F1.4)</h4><p>Real-time broadcast to all connected users via Socket.io with sender attribution</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#128274;</div><div class="feature-text"><h4>Private Chat (F1.5)</h4><p>Direct socket-to-socket messaging &mdash; visible only to sender and recipient</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#128101;</div><div class="feature-text"><h4>User List (F1.6)</h4><p>Live sidebar updated on every join and disconnect across all sessions</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#9997;</div><div class="feature-text"><h4>Typing Indicator (F1.8)</h4><p>Animated dots in public and private chat &mdash; auto-clears after 1.5s inactivity</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#128737;</div><div class="feature-text"><h4>XSS Defense (SSDLC)</h4><p>DOMPurify sanitization + strict CSP header &mdash; defense-in-depth across all layers</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#128336;</div><div class="feature-text"><h4>Timestamps (F1.9)</h4><p>Team-chosen feature: relative and absolute timestamps on every message</p></div></div>
+      <div class="feature-card"><div class="feature-icon">&#9654;</div><div class="feature-text"><h4>CI/CD (DevOps)</h4><p>GitHub Actions &rarr; Azure App Services auto-deploy on every push to sprint1</p></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-body">
+        <p class="section-label">The Project</p>
+        <h2 class="section-title">What is Chattr?</h2>
+        <p>Chattr is a lightweight, real-time web-based messaging application designed to make communication between students, instructors, and team members faster and more organized. In many course or project environments, communication becomes scattered across email, group chats, and announcements. Chattr addresses this by providing one focused platform for public announcements, group chat, and private messaging.</p>
+        <p>Built with a Node.js and Socket.io stack, Chattr follows a client-server architecture where all real-time communication flows through a central server. The application is deployed to Azure App Services with automated CI/CD via GitHub Actions &mdash; every push to the sprint branch triggers a fresh deployment.</p>
+        <p>Security is treated as a cross-cutting concern throughout development (SSDLC): input validation runs on both client and server, all user-controlled output is sanitized with DOMPurify, and a strict Content-Security-Policy header is applied on every server response.</p>
+        <div class="stack-list">
+          <span class="stack-pill">Node.js v24</span>
+          <span class="stack-pill">Express</span>
+          <span class="stack-pill">Socket.io v4</span>
+          <span class="stack-pill">DOMPurify</span>
+          <span class="stack-pill">GitHub Actions</span>
+          <span class="stack-pill">Azure App Services</span>
+          <span class="stack-pill">MongoDB Atlas (Sprint 2)</span>
+        </div>
+      </div>
+      <div>
+        <p class="section-label" style="margin-bottom:12px;">Sprint Roadmap</p>
+        <div class="sprint-table">
+          <table>
+            <thead><tr><th>Sprint</th><th>Focus</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Sprint 0</td><td>Team setup, system analysis, design</td><td><span class="tag tag-green">Done</span></td></tr>
+              <tr class="current"><td>Sprint 1</td><td>Core UI, auth, public &amp; private chat</td><td><span class="tag tag-red">Current</span></td></tr>
+              <tr><td>Sprint 2</td><td>MongoDB Atlas, password hashing</td><td><span class="tag tag-navy">Upcoming</span></td></tr>
+              <tr><td>Sprint 3</td><td>Team-chosen features, GenAI-assisted</td><td><span class="tag tag-navy">Upcoming</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<section id="team">
+  <div class="container">
+    <p class="section-label">The People</p>
+    <h2 class="section-title">Meet Team 16</h2>
+    <p class="section-desc">Five students from the University of Cincinnati's Computer Engineering and Computer Science programs.</p>
+    <div class="team-grid">
+      <div class="member-card"><div class="member-avatar">VB<span class="status"></span></div><h3>Vedant Bharate</h3><div class="role">Product Owner &bull; Scrum Master</div><a href="mailto:bharatva@mail.uc.edu">bharatva@mail.uc.edu</a></div>
+      <div class="member-card"><div class="member-avatar">SA<span class="status"></span></div><h3>Sharanya Awasthi</h3><div class="role">Team Leader &bull; Developer</div><a href="mailto:awasthsa@mail.uc.edu">awasthsa@mail.uc.edu</a></div>
+      <div class="member-card"><div class="member-avatar">AB<span class="status"></span></div><h3>Arnav Bhalgat</h3><div class="role">Scrum Master &bull; Developer</div><a href="mailto:bhalgaaa@mail.uc.edu">bhalgaaa@mail.uc.edu</a></div>
+      <div class="member-card"><div class="member-avatar">VS<span class="status"></span></div><h3>Vedant Samarth</h3><div class="role">Developer</div><a href="mailto:samartvk@mail.uc.edu">samartvk@mail.uc.edu</a></div>
+      <div class="member-card"><div class="member-avatar">PM<span class="status"></span></div><h3>Pradnyesh More</h3><div class="role">Developer</div><a href="mailto:morepu@mail.uc.edu">morepu@mail.uc.edu</a></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<section id="links">
+  <div class="container">
+    <p class="section-label">Resources</p>
+    <h2 class="section-title">Project Links</h2>
+    <div class="links-grid">
+      <a href="https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net" target="_blank" rel="noopener" class="link-card"><div class="link-icon">&#127760;</div><div class="link-text"><h4>Live Application</h4><p>Sprint 1 prototype deployed on Azure App Services</p></div></a>
+      <a href="https://github.com/uc-se-sm26-team16/scrum-project" target="_blank" rel="noopener" class="link-card"><div class="link-icon">&#128196;</div><div class="link-text"><h4>Code Repository</h4><p>Source code, sprint branches, CI/CD workflows</p></div></a>
+      <a href="https://github.com/orgs/uc-se-sm26-team16/projects/1/views/2" target="_blank" rel="noopener" class="link-card"><div class="link-icon">&#128203;</div><div class="link-text"><h4>Project Board</h4><p>GitHub Projects &mdash; Sprint PBIs, backlog, roadmap</p></div></a>
+      <a href="https://github.com/uc-se-sm26-team16/scrum-project/blob/sprint1/README.md" target="_blank" rel="noopener" class="link-card"><div class="link-icon">&#128220;</div><div class="link-text"><h4>Sprint 1 Report</h4><p>Full README &mdash; system analysis, design, implementation, SSDLC</p></div></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><strong style="color:rgba(255,255,255,.8);">Chattr</strong> &mdash; Team 16 &mdash; EECE/CS 3093C Software Engineering, University of Cincinnati, Summer 2026</p>
+    <p style="margin-top:6px;"><a href="https://github.com/uc-se-sm26-team16">GitHub Org</a> &nbsp;&bull;&nbsp; <a href="https://github.com/uc-se-sm26-team16/scrum-project">Repository</a> &nbsp;&bull;&nbsp; <a href="https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net">Live App</a></p>
+    <p style="margin-top:8px;">Last updated: July 2026</p>
+  </div>
+</footer>
+
 </body>
 </html>
