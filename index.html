@@ -78,7 +78,7 @@
     .sprint-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: rgba(255,255,255,.8); font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
     .sprint-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--online); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-    .video-outer { background: var(--navy); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 24px 60px rgba(13,27,42,.25); }
+    .video-outer { background: var(--navy); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 24px 60px rgba(13,27,42,.25); display: block; margin: 0 auto; max-width: 640px; }
     .video-topbar { background: var(--navy-card); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
     .video-topbar .wdot { width: 11px; height: 11px; border-radius: 50%; }
     .wr{background:#FF5F57} .wy{background:#FFBD2E} .wg{background:#28CA41}
@@ -190,14 +190,7 @@
 
     <!--
     ═══════════════════════════════════════════════════════════════════════
-    VIDEO EMBED — replace the .video-placeholder div below with your embed.
-
-    YouTube:
-    <iframe width="100%" style="aspect-ratio:16/9;display:block;"
-      src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-      title="Chattr Sprint 2 Demo" frameborder="0"
-      allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-      allowfullscreen></iframe>
+    VIDEO EMBED
     ═══════════════════════════════════════════════════════════════════════
     -->
     <div class="video-outer">
@@ -209,7 +202,8 @@
       </div>
       
       <!-- Kaltura iframe embed -->
-      <iframe id="kaltura_player" src='https://cdnapisec.kaltura.com/p/1492301/embedPlaykitJs/uiconf_id/53356032?iframeembed=true&amp;entry_id=1_ubyay6iq&amp;config%5Bprovider%5D=%7B%22widgetId%22%3A%221_wcxqmcp9%22%7D&amp;config%5Bplayback%5D=%7B%22startTime%22%3A0%7D'  style="width: 640px;height: 360px;border: 0;" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" title="SWE-Chattr-Final-Demo"></iframe>
+      
+      <iframe id="kaltura_player" src='https://cdnapisec.kaltura.com/p/1492301/embedPlaykitJs/uiconf_id/53356032?iframeembed=true&amp;entry_id=1_ubyay6iq&amp;config%5Bprovider%5D=%7B%22widgetId%22%3A%221_wcxqmcp9%22%7D&amp;config%5Bplayback%5D=%7B%22startTime%22%3A0%7D'  style="width: 100%;height: 360px;border: 0;display:block;" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" title="SWE-Chattr-Final-Demo"></iframe>
       
 </div>
 
@@ -254,9 +248,8 @@
             <thead><tr><th>Sprint</th><th>Focus</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td>Sprint 0</td><td>Team setup, system analysis, design</td><td><span class="tag tag-green">Done</span></td></tr>
-              <tr class="current"><td>Sprint 2</td><td>Core UI, auth, public &amp; private chat</td><td><span class="tag tag-red">Current</span></td></tr>
-              <tr><td>Sprint 2</td><td>MongoDB Atlas, password hashing</td><td><span class="tag tag-navy">Upcoming</span></td></tr>
-              <tr><td>Sprint 3</td><td>Team-chosen features, GenAI-assisted</td><td><span class="tag tag-navy">Upcoming</span></td></tr>
+              <tr><td>Sprint 1</td><td>Core UI, auth, public &amp; private chat</td><td><span class="tag tag-green">Done</span></td></tr>
+              <tr class="current"><td>Sprint 2</td><td>MongoDB Atlas, password hashing</td><td><span class="tag tag-red">Current</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -301,7 +294,7 @@
   <div class="container">
     <p><strong style="color:rgba(255,255,255,.8);">Chattr</strong> &mdash; Team 16 &mdash; EECE/CS 3093C Software Engineering, University of Cincinnati, Summer 2026</p>
     <p style="margin-top:6px;"><a href="https://github.com/uc-se-sm26-team16">GitHub Org</a> &nbsp;&bull;&nbsp; <a href="https://github.com/uc-se-sm26-team16/scrum-project">Repository</a> &nbsp;&bull;&nbsp; <a href="https://chattr-messenger-team16-f8bahedqctdgf9ah.canadacentral-01.azurewebsites.net">Live App</a></p>
-    <p style="margin-top:8px;">Last updated: July 2026</p>
+    <p style="margin-top:8px;">Last updated: August 2026</p>
   </div>
 </footer>
 
